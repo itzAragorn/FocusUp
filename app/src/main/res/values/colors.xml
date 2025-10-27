@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Color primario - Morado eléctrico -->
+    <color name="electric_purple">#8B5CF6</color>
+    <color name="electric_purple_light">#A78BFA</color>
+    <color name="electric_purple_dark">#7C3AED</color>
+    
+    <!-- Color secundario - Gris oscuro grafito -->
+    <color name="dark_graphite">#1E1E1E</color>
+    <color name="dark_graphite_light">#2A2A2A</color>
+    <color name="dark_graphite_lighter">#3A3A3A</color>
+    
+    <!-- Colores de acento y estado -->
+    <color name="surface_dark">#252525</color>
+    <color name="background_dark">#1A1A1A</color>
+    
+    <!-- Colores de texto -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B8B8B8</color>
+    <color name="text_tertiary">#808080</color>
+    
+    <!-- Colores base -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>

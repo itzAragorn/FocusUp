@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">FocusUp</string>
+    
+    <!-- Empty States -->
+    <string name="empty_tasks_title">Sin tareas pendientes</string>
+    <string name="empty_tasks_description">¡Genial! No tienes tareas por hacer. Agrega una nueva para comenzar a organizar tu día.</string>
+    <string name="empty_schedule_title">Sin bloques programados</string>
+    <string name="empty_schedule_description">Crea bloques de tiempo para organizar tu día y mejorar tu productividad.</string>
+    <string name="empty_calendar_title">Sin eventos este día</string>
+    <string name="empty_calendar_description">No hay tareas ni bloques programados para esta fecha.</string>
+    
+    <!-- Loading States -->
+    <string name="loading_general">Cargando...</string>
+    <string name="loading_tasks">Cargando tareas...</string>
+    <string name="loading_schedule">Cargando horario...</string>
+    
+    <!-- Success Messages -->
+    <string name="task_created">Tarea creada exitosamente</string>
+    <string name="task_updated">Tarea actualizada</string>
+    <string name="task_deleted">Tarea eliminada</string>
+    <string name="task_completed">¡Tarea completada!</string>
+    <string name="schedule_created">Bloque agregado al horario</string>
+    <string name="schedule_deleted">Bloque eliminado</string>
+    
+    <!-- Error Messages -->
+    <string name="error_general">Ocurrió un error</string>
+    <string name="error_network">Error de conexión</string>
+    <string name="error_loading">Error al cargar datos</string>
+    
+    <!-- Actions -->
+    <string name="action_add">Agregar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_undo">Deshacer</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="action_dismiss">Cerrar</string>
+</resources>

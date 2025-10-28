@@ -85,12 +85,17 @@ class NotificationHelper(private val context: Context) {
         
         val notification = NotificationCompat.Builder(context, CHANNEL_ID_TASKS)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle("Recordatorio: $taskName")
+            .setContentTitle("⏰ Recordatorio: $taskName")
             .setContentText("Tu tarea está programada para $taskTime")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("Tu tarea \"$taskName\" está programada para las $taskTime. ¡No olvides completarla!"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(0, 500, 250, 500))
+            .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
             .build()
         
         NotificationManagerCompat.from(context).notify(taskId.toInt(), notification)
@@ -137,13 +142,74 @@ class NotificationHelper(private val context: Context) {
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(0, 1000, 500, 1000))
+            .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
             .build()
         
         NotificationManagerCompat.from(context).notify(notificationId, notification)
+    }
+    
+    fun showPomodoroProgressNotification(timeLeft: String, isWorking: Boolean) {
+        val title = if (isWorking) "⏱️ Pomodoro en progreso" else "☕ Descanso en progreso"
+        val message = "Tiempo restante: $timeLeft"
+        
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID_POMODORO)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setContentIntent(pendingIntent)
+            .setOngoing(true)
+            .setSilent(true)
+            .build()
+        
+        NotificationManagerCompat.from(context).notify(999, notification)
+    }
+    
+    fun showUpcomingTaskNotification(taskId: Long, taskName: String, minutesUntil: Int) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("taskId", taskId)
+        }
+        
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            (taskId + 10000).toInt(), // Diferente ID para notificación previa
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID_TASKS)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle("🔔 Tarea próxima: $taskName")
+            .setContentText("Comienza en $minutesUntil minutos. Prepárate para enfocarte 📝")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("Tu tarea \"$taskName\" comienza en $minutesUntil minutos. Es un buen momento para prepararte."))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+        
+        NotificationManagerCompat.from(context).notify((taskId + 10000).toInt(), notification)
     }
     
     fun cancelNotification(notificationId: Int) {

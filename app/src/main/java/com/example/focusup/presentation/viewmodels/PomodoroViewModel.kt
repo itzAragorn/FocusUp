@@ -147,22 +147,34 @@ class PomodoroViewModel(
         when (currentSession.state) {
             PomodoroState.WORK -> {
                 // Pomodoro completado
+                val completedCount = currentSession.completedPomodoros + 1
                 notificationHelper.showPomodoroNotification(
-                    title = "¡Pomodoro completado! 🎉",
-                    message = "Es hora de tomar un descanso"
+                    title = "🎉 ¡Pomodoro #$completedCount completado!",
+                    message = "Excelente trabajo. Es hora de tomar un descanso merecido 💪",
+                    notificationId = 1000
                 )
                 incrementPomodoro()
                 
                 _session.value = currentSession.copy(
-                    completedPomodoros = currentSession.completedPomodoros + 1,
+                    completedPomodoros = completedCount,
                     state = PomodoroState.IDLE
                 )
             }
-            PomodoroState.SHORT_BREAK, PomodoroState.LONG_BREAK -> {
-                // Descanso completado
+            PomodoroState.SHORT_BREAK -> {
+                // Descanso corto completado
                 notificationHelper.showPomodoroNotification(
-                    title = "Descanso terminado",
-                    message = "¿Listo para otro Pomodoro?"
+                    title = "⏱️ Descanso corto terminado",
+                    message = "¡Recargaste energías! ¿Listo para otro Pomodoro de 25 minutos?",
+                    notificationId = 1001
+                )
+                _session.value = currentSession.copy(state = PomodoroState.IDLE)
+            }
+            PomodoroState.LONG_BREAK -> {
+                // Descanso largo completado
+                notificationHelper.showPomodoroNotification(
+                    title = "🌟 Descanso largo terminado",
+                    message = "¡Gran sesión de trabajo! Estás listo para continuar con energía renovada 🚀",
+                    notificationId = 1002
                 )
                 _session.value = currentSession.copy(state = PomodoroState.IDLE)
             }

@@ -15,7 +15,7 @@ import com.example.focusup.data.database.entities.ProductivityStats
 
 @Database(
     entities = [User::class, ScheduleBlock::class, Task::class, ProductivityStats::class],
-    version = 6,
+    version = 8,
     exportSchema = false
 )
 abstract class FocusUpDatabase : RoomDatabase() {

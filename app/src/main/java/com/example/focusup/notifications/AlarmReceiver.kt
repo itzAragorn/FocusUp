@@ -14,8 +14,10 @@ class AlarmReceiver : BroadcastReceiver() {
         const val EXTRA_BLOCK_NAME = "extra_block_name"
         const val EXTRA_BLOCK_START_TIME = "extra_block_start_time"
         const val EXTRA_TYPE = "extra_type"
+        const val EXTRA_MINUTES_UNTIL = "extra_minutes_until"
         
         const val TYPE_TASK = "task"
+        const val TYPE_TASK_UPCOMING = "task_upcoming"
         const val TYPE_SCHEDULE_BLOCK = "schedule_block"
     }
     
@@ -31,6 +33,15 @@ class AlarmReceiver : BroadcastReceiver() {
                 
                 if (taskId != -1L) {
                     notificationHelper.showTaskReminder(taskId, taskName, taskTime)
+                }
+            }
+            TYPE_TASK_UPCOMING -> {
+                val taskId = intent.getLongExtra(EXTRA_TASK_ID, -1)
+                val taskName = intent.getStringExtra(EXTRA_TASK_NAME) ?: "Tarea"
+                val minutesUntil = intent.getIntExtra(EXTRA_MINUTES_UNTIL, 15)
+                
+                if (taskId != -1L) {
+                    notificationHelper.showUpcomingTaskNotification(taskId, taskName, minutesUntil)
                 }
             }
             TYPE_SCHEDULE_BLOCK -> {

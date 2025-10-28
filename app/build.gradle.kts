@@ -73,6 +73,12 @@ dependencies {
     // Work Manager
     implementation(libs.androidx.work.runtime.ktx)
     
+    // Coil for image loading
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    
+    // Biometric authentication
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

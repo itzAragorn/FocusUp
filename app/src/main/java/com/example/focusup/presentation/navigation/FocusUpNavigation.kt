@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.NavType
 import com.example.focusup.presentation.screens.LoginScreen
 import com.example.focusup.presentation.screens.RegisterScreen
+import com.example.focusup.presentation.screens.BiometricLockScreen
 import com.example.focusup.presentation.screens.HomeScreen
 import com.example.focusup.presentation.screens.ScheduleScreen
 import com.example.focusup.presentation.screens.CalendarScreen
@@ -19,6 +20,7 @@ import com.example.focusup.presentation.screens.SplashScreen
 import com.example.focusup.presentation.screens.PomodoroScreen
 import com.example.focusup.presentation.screens.StatsScreen
 import com.example.focusup.presentation.screens.TaskListScreen
+import com.example.focusup.presentation.screens.ProfileScreen
 import com.example.focusup.presentation.viewmodels.AuthViewModel
 import com.example.focusup.presentation.viewmodels.TaskViewModel
 import com.example.focusup.presentation.viewmodels.ScheduleViewModel
@@ -27,6 +29,9 @@ import com.example.focusup.presentation.viewmodels.CalendarScreenViewModel
 import com.example.focusup.presentation.viewmodels.HomeScreenViewModel
 import com.example.focusup.presentation.viewmodels.PomodoroViewModel
 import com.example.focusup.presentation.viewmodels.StatsViewModel
+import com.example.focusup.utils.BiometricHelper
+import com.example.focusup.utils.UserPreferencesManager
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun FocusUpNavigation(
@@ -40,14 +45,23 @@ fun FocusUpNavigation(
     statsViewModel: StatsViewModel,
     navController: NavHostController = rememberNavController()
 ) {
+    val context = LocalContext.current
     val authUiState by authViewModel.uiState.collectAsState()
+    val preferencesManager = remember { UserPreferencesManager(context) }
+    val biometricEnabled by preferencesManager.biometricEnabledFlow.collectAsState(initial = false)
+    val biometricHelper = remember { BiometricHelper(context) }
     var showSplash by remember { mutableStateOf(true) }
     
     // Determinar la pantalla inicial basada en el estado de autenticación
     val startDestination = if (showSplash) {
         Screen.Splash.route
     } else if (authUiState.isLoggedIn) {
-        Screen.Home.route
+        // Si está logueado y tiene biometría activada, mostrar pantalla de bloqueo
+        if (biometricEnabled && biometricHelper.canAuthenticate() == BiometricHelper.BiometricStatus.AVAILABLE) {
+            Screen.BiometricLock.route
+        } else {
+            Screen.Home.route
+        }
     } else {
         Screen.Login.route
     }
@@ -61,7 +75,12 @@ fun FocusUpNavigation(
                 onSplashFinished = {
                     showSplash = false
                     val destination = if (authUiState.isLoggedIn) {
-                        Screen.Home.route
+                        // Si está logueado y tiene biometría activada, ir a pantalla de bloqueo
+                        if (biometricEnabled && biometricHelper.canAuthenticate() == BiometricHelper.BiometricStatus.AVAILABLE) {
+                            Screen.BiometricLock.route
+                        } else {
+                            Screen.Home.route
+                        }
                     } else {
                         Screen.Login.route
                     }
@@ -73,6 +92,29 @@ fun FocusUpNavigation(
                 }
             )
         }
+        
+        composable(Screen.BiometricLock.route) {
+            BiometricLockScreen(
+                userName = authUiState.currentUser?.name ?: "Usuario",
+                onAuthenticated = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.BiometricLock.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onUsePassword = {
+                    // Cerrar sesión y volver al login
+                    authViewModel.logout()
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+        
         composable(Screen.Login.route) {
             LoginScreen(
                 onLogin = { email, password ->
@@ -130,6 +172,9 @@ fun FocusUpNavigation(
                 },
                 onNavigateToTaskList = {
                     navController.navigate(Screen.TaskList.route)
+                },
+                onNavigateToProfile = {
+                    navController.navigate(Screen.Profile.route)
                 },
                 homeScreenViewModel = homeScreenViewModel
             )
@@ -280,6 +325,23 @@ fun FocusUpNavigation(
                     },
                     calendarScreenViewModel = calendarScreenViewModel,
                     taskViewModel = taskViewModel
+                )
+            }
+        }
+        
+        composable(Screen.Profile.route) {
+            authUiState.currentUser?.let { user ->
+                ProfileScreen(
+                    userId = user.id,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onLogout = {
+                        authViewModel.logout()
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
                 )
             }
         }

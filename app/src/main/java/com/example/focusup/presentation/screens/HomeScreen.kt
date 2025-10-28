@@ -31,6 +31,7 @@ fun HomeScreen(
     onNavigateToPomodoro: () -> Unit = {},
     onNavigateToStats: () -> Unit = {},
     onNavigateToTaskList: () -> Unit = {},
+    onNavigateToProfile: () -> Unit = {},
     homeScreenViewModel: HomeScreenViewModel
 ) {
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -50,6 +51,9 @@ fun HomeScreen(
                     Text("FocusUp")
                 },
                 actions = {
+                    IconButton(onClick = onNavigateToProfile) {
+                        Icon(Icons.Default.Person, contentDescription = "Perfil")
+                    }
                     IconButton(onClick = { showLogoutDialog = true }) {
                         Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar sesión")
                     }

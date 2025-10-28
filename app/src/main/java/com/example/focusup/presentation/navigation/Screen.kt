@@ -2,6 +2,7 @@ package com.example.focusup.presentation.navigation
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
+    object BiometricLock : Screen("biometric_lock")
     object Login : Screen("login")
     object Register : Screen("register")
     object ProfileSetup : Screen("profile_setup")
@@ -23,4 +24,5 @@ sealed class Screen(val route: String) {
     object Pomodoro : Screen("pomodoro")
     object Stats : Screen("stats")
     object TaskList : Screen("task_list")
+    object Profile : Screen("profile")
 }

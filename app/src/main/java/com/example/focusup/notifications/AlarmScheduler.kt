@@ -18,42 +18,78 @@ class AlarmScheduler(private val context: Context) {
         taskTime: String,
         minutesBefore: Int = 15
     ) {
-        val intent = Intent(context, AlarmReceiver::class.java).apply {
+        // Alarma principal (a la hora exacta)
+        val mainIntent = Intent(context, AlarmReceiver::class.java).apply {
             putExtra(AlarmReceiver.EXTRA_TYPE, AlarmReceiver.TYPE_TASK)
             putExtra(AlarmReceiver.EXTRA_TASK_ID, taskId)
             putExtra(AlarmReceiver.EXTRA_TASK_NAME, taskName)
             putExtra(AlarmReceiver.EXTRA_TASK_TIME, taskTime)
         }
         
-        val pendingIntent = PendingIntent.getBroadcast(
+        val mainPendingIntent = PendingIntent.getBroadcast(
             context,
             taskId.toInt(),
-            intent,
+            mainIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        // Alarma anticipada (15 minutos antes)
+        val upcomingIntent = Intent(context, AlarmReceiver::class.java).apply {
+            putExtra(AlarmReceiver.EXTRA_TYPE, AlarmReceiver.TYPE_TASK_UPCOMING)
+            putExtra(AlarmReceiver.EXTRA_TASK_ID, taskId)
+            putExtra(AlarmReceiver.EXTRA_TASK_NAME, taskName)
+            putExtra(AlarmReceiver.EXTRA_MINUTES_UNTIL, minutesBefore)
+        }
+        
+        val upcomingPendingIntent = PendingIntent.getBroadcast(
+            context,
+            (taskId + 10000).toInt(), // ID diferente para la alarma anticipada
+            upcomingIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         
         // Parsear fecha y hora
         val triggerTime = parseDateTime(taskDate, taskTime)
         
-        // Restar los minutos de anticipación
-        val calendar = Calendar.getInstance().apply {
+        // Programar alarma principal
+        val mainCalendar = Calendar.getInstance().apply {
             timeInMillis = triggerTime
-            add(Calendar.MINUTE, -minutesBefore)
         }
         
-        // Solo programar si es en el futuro
-        if (calendar.timeInMillis > System.currentTimeMillis()) {
+        if (mainCalendar.timeInMillis > System.currentTimeMillis()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    pendingIntent
+                    mainCalendar.timeInMillis,
+                    mainPendingIntent
                 )
             } else {
                 alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    pendingIntent
+                    mainCalendar.timeInMillis,
+                    mainPendingIntent
+                )
+            }
+        }
+        
+        // Programar alarma anticipada (15 minutos antes)
+        val upcomingCalendar = Calendar.getInstance().apply {
+            timeInMillis = triggerTime
+            add(Calendar.MINUTE, -minutesBefore)
+        }
+        
+        if (upcomingCalendar.timeInMillis > System.currentTimeMillis()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    upcomingCalendar.timeInMillis,
+                    upcomingPendingIntent
+                )
+            } else {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    upcomingCalendar.timeInMillis,
+                    upcomingPendingIntent
                 )
             }
         }
@@ -93,14 +129,25 @@ class AlarmScheduler(private val context: Context) {
     }
     
     fun cancelReminder(id: Long) {
-        val intent = Intent(context, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
+        // Cancelar alarma principal
+        val mainIntent = Intent(context, AlarmReceiver::class.java)
+        val mainPendingIntent = PendingIntent.getBroadcast(
             context,
             id.toInt(),
-            intent,
+            mainIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        alarmManager.cancel(pendingIntent)
+        alarmManager.cancel(mainPendingIntent)
+        
+        // Cancelar alarma anticipada
+        val upcomingIntent = Intent(context, AlarmReceiver::class.java)
+        val upcomingPendingIntent = PendingIntent.getBroadcast(
+            context,
+            (id + 10000).toInt(),
+            upcomingIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        alarmManager.cancel(upcomingPendingIntent)
     }
     
     private fun parseDateTime(date: String, time: String): Long {

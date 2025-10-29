@@ -1,5 +1,17 @@
 # 🎯 FocusUp - Aplicación de Productividad y Gestión de Tareas
 
+- **Pagina de Inicio**
+![WhatsApp Image 2025-10-29 at 8 17 25 PM](https://github.com/user-attachments/assets/d04758f6-2dbe-4f76-a0bf-eabc0de71ae7)
+
+- **Calendario**
+![WhatsApp Image 2025-10-29 at 8 17 25 PM (1)](https://github.com/user-attachments/assets/631ecf34-39be-4c7f-a521-59625adb4e9c)
+
+- **Horario**
+![WhatsApp Image 2025-10-29 at 8 17 24 PM](https://github.com/user-attachments/assets/5cf12222-1040-474b-a624-633ecb8e764e)
+
+- **Temporizador Pomodoro**
+![WhatsApp Image 2025-10-29 at 8 17 24 PM (1)](https://github.com/user-attachments/assets/865689d3-fffc-41aa-885a-c1a9b322637f)
+
 ## 📱 Descripción General
 FocusUp es una aplicación Android moderna desarrollada en Kotlin con Jetpack Compose que combina gestión de tareas, técnica Pomodoro, horarios semanales y gamificación para maximizar la productividad de estudiantes y trabajadores.
 

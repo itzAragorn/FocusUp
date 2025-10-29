@@ -6,15 +6,23 @@ import com.example.focusup.domain.model.PomodoroSession
 import com.example.focusup.domain.model.PomodoroState
 import com.example.focusup.notifications.NotificationHelper
 import com.example.focusup.data.repository.ProductivityStatsRepository
+import com.example.focusup.data.repository.DailyStatsRepository
+import com.example.focusup.data.database.entities.AchievementType
 import com.example.focusup.utils.DateTimeUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import java.time.LocalTime
 
 class PomodoroViewModel(
     private val notificationHelper: NotificationHelper,
-    private val statsRepository: ProductivityStatsRepository
+    private val statsRepository: ProductivityStatsRepository,
+    private val dailyStatsRepository: DailyStatsRepository,
+    private val userId: Long = 1L, // TODO: Get from auth
+    private val gamificationViewModel: GamificationViewModel? = null
 ) : ViewModel() {
     
     private val _session = MutableStateFlow(
@@ -183,13 +191,64 @@ class PomodoroViewModel(
     }
     
     private suspend fun incrementPomodoro() {
-        currentUserId?.let { userId ->
-            val today = DateTimeUtils.getCurrentDate()
-            statsRepository.incrementPomodoro(userId, today)
+        try {
+            // Actualizar sistema viejo (ProductivityStats)
+            currentUserId?.let { oldUserId ->
+                val today = DateTimeUtils.getCurrentDate()
+                statsRepository.incrementPomodoro(oldUserId, today)
+                statsRepository.addStudyTime(oldUserId, today, 25)
+            }
             
-            // Agregar tiempo de estudio (25 minutos)
-            statsRepository.addStudyTime(userId, today, 25)
+            // Actualizar sistema nuevo (DailyStats)
+            dailyStatsRepository.updateTodayStats(
+                userId = userId,
+                pomodoroCompleted = true,
+                focusTimeMinutes = 25, // 25 minutos por pomodoro
+                taskCompleted = false,
+                taskCreated = false
+            )
+            
+            // *** GAMIFICACIÓN: Actualizar progreso y desbloquear achievements ***
+            gamificationViewModel?.let { gamification ->
+                val stats = dailyStatsRepository.getStatsForToday(userId)
+                stats?.let { dailyStats ->
+                    val totalStats = dailyStatsRepository.getTotalStats(userId)
+                    
+                    // Calcular XP basado en streak
+                    val streakDays = dailyStats.studyStreakDays
+                    val xpToAdd = XpCalculator.calculatePomodoroXp(streakDays)
+                    
+                    // Verificar si es Early Bird (6:00 - 9:00) o Night Owl (22:00 - 2:00)
+                    val currentHour = LocalTime.now().hour
+                    when {
+                        currentHour in 6..8 -> {
+                            gamification.unlockSpecialAchievement(AchievementType.EARLY_BIRD)
+                        }
+                        currentHour >= 22 || currentHour <= 2 -> {
+                            gamification.unlockSpecialAchievement(AchievementType.NIGHT_OWL)
+                        }
+                    }
+                    
+                    // Actualizar progreso general
+                    gamification.onActivityCompleted(
+                        xpToAdd = xpToAdd,
+                        totalPomodoros = totalStats.totalPomodoros + 1,
+                        totalTasks = totalStats.totalTasks,
+                        totalFocusTimeMinutes = totalStats.totalFocusTime + 25,
+                        currentStreak = dailyStats.studyStreakDays,
+                        dailyPomodoros = dailyStats.pomodoroSessionsCompleted + 1,
+                        dailyTasks = dailyStats.tasksCompleted
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            // Log error but continue execution
         }
+    }
+    
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
     }
     
     override fun onCleared() {

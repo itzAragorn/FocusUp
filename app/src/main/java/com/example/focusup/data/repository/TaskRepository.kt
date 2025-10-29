@@ -51,4 +51,8 @@ class TaskRepository(
     fun getRecurringParentTasks(): Flow<List<Task>> {
         return taskDao.getRecurringParentTasks()
     }
+    
+    suspend fun getTasksForUserAndDate(userId: Long, date: String): List<Task> {
+        return taskDao.getTasksForUserAndDateSync(userId, date)
+    }
 }

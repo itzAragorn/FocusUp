@@ -21,6 +21,8 @@ import com.example.focusup.presentation.screens.PomodoroScreen
 import com.example.focusup.presentation.screens.StatsScreen
 import com.example.focusup.presentation.screens.TaskListScreen
 import com.example.focusup.presentation.screens.ProfileScreen
+import com.example.focusup.presentation.screens.DashboardScreen
+import com.example.focusup.presentation.screens.AchievementScreen
 import com.example.focusup.presentation.viewmodels.AuthViewModel
 import com.example.focusup.presentation.viewmodels.TaskViewModel
 import com.example.focusup.presentation.viewmodels.ScheduleViewModel
@@ -29,6 +31,8 @@ import com.example.focusup.presentation.viewmodels.CalendarScreenViewModel
 import com.example.focusup.presentation.viewmodels.HomeScreenViewModel
 import com.example.focusup.presentation.viewmodels.PomodoroViewModel
 import com.example.focusup.presentation.viewmodels.StatsViewModel
+import com.example.focusup.presentation.viewmodels.DashboardViewModel
+import com.example.focusup.presentation.viewmodels.GamificationViewModel
 import com.example.focusup.utils.BiometricHelper
 import com.example.focusup.utils.UserPreferencesManager
 import androidx.compose.ui.platform.LocalContext
@@ -43,6 +47,8 @@ fun FocusUpNavigation(
     homeScreenViewModel: HomeScreenViewModel,
     pomodoroViewModel: PomodoroViewModel,
     statsViewModel: StatsViewModel,
+    dashboardViewModel: DashboardViewModel,
+    gamificationViewModel: GamificationViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     val context = LocalContext.current
@@ -176,7 +182,33 @@ fun FocusUpNavigation(
                 onNavigateToProfile = {
                     navController.navigate(Screen.Profile.route)
                 },
+                onNavigateToDashboard = {
+                    navController.navigate(Screen.Dashboard.route)
+                },
                 homeScreenViewModel = homeScreenViewModel
+            )
+        }
+        
+        composable(Screen.Dashboard.route) {
+            DashboardScreen(
+                user = authUiState.currentUser,
+                dashboardViewModel = dashboardViewModel,
+                gamificationViewModel = gamificationViewModel,
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onNavigateToPomodoro = {
+                    navController.navigate(Screen.Pomodoro.route)
+                },
+                onNavigateToTasks = {
+                    navController.navigate(Screen.TaskList.route)
+                },
+                onNavigateToSchedule = {
+                    navController.navigate(Screen.Schedule.route)
+                },
+                onNavigateToAchievement = {
+                    navController.navigate(Screen.Achievement.route)
+                }
             )
         }
         
@@ -324,7 +356,8 @@ fun FocusUpNavigation(
                         navController.navigate(Screen.AddTask.createRoute())
                     },
                     calendarScreenViewModel = calendarScreenViewModel,
-                    taskViewModel = taskViewModel
+                    taskViewModel = taskViewModel,
+                    userId = user.id
                 )
             }
         }
@@ -341,6 +374,18 @@ fun FocusUpNavigation(
                         navController.navigate(Screen.Login.route) {
                             popUpTo(0) { inclusive = true }
                         }
+                    }
+                )
+            }
+        }
+        
+        composable(Screen.Achievement.route) {
+            authUiState.currentUser?.let { user ->
+                AchievementScreen(
+                    user = user,
+                    gamificationViewModel = gamificationViewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
                     }
                 )
             }

@@ -39,4 +39,7 @@ interface TaskDao {
     
     @Query("SELECT * FROM tasks WHERE recurrenceType != 'NONE' AND parentTaskId IS NULL")
     fun getRecurringParentTasks(): Flow<List<Task>>
+    
+    @Query("SELECT * FROM tasks WHERE userId = :userId AND date = :date ORDER BY time")
+    suspend fun getTasksForUserAndDateSync(userId: Long, date: String): List<Task>
 }

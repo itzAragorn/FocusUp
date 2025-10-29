@@ -25,3 +25,10 @@ val TextTertiary = Color(0xFF808080)
 val SuccessGreen = Color(0xFF4CAF50)
 val WarningOrange = Color(0xFFFF9800)
 val ErrorRed = Color(0xFFF44336)
+
+// Colores adicionales para gamificación
+val VibrantBlue = Color(0xFF3B82F6)
+val DarkGray = Color(0xFF374151)
+val MediumGray = Color(0xFF6B7280)
+val LightGray = Color(0xFF9CA3AF)
+val BackgroundLight = Color(0xFFF9FAFB)

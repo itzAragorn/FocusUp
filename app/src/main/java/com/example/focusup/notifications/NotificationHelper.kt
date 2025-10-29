@@ -17,12 +17,15 @@ class NotificationHelper(private val context: Context) {
         private const val CHANNEL_ID_TASKS = "task_reminders"
         private const val CHANNEL_ID_SCHEDULE = "schedule_blocks"
         private const val CHANNEL_ID_POMODORO = "pomodoro_timer"
+        private const val CHANNEL_ID_GAMIFICATION = "gamification_rewards"
         private const val CHANNEL_NAME_TASKS = "Recordatorios de Tareas"
         private const val CHANNEL_NAME_SCHEDULE = "Bloques de Horario"
         private const val CHANNEL_NAME_POMODORO = "Temporizador Pomodoro"
+        private const val CHANNEL_NAME_GAMIFICATION = "Recompensas y Logros"
         private const val CHANNEL_DESCRIPTION_TASKS = "Notificaciones para recordatorios de tareas"
         private const val CHANNEL_DESCRIPTION_SCHEDULE = "Notificaciones para bloques de horario"
         private const val CHANNEL_DESCRIPTION_POMODORO = "Notificaciones del temporizador Pomodoro"
+        private const val CHANNEL_DESCRIPTION_GAMIFICATION = "Notificaciones de level up y achievements desbloqueados"
     }
     
     init {
@@ -63,10 +66,22 @@ class NotificationHelper(private val context: Context) {
                 enableLights(true)
             }
             
+            // Canal para Gamificación
+            val gamificationChannel = NotificationChannel(
+                CHANNEL_ID_GAMIFICATION,
+                CHANNEL_NAME_GAMIFICATION,
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = CHANNEL_DESCRIPTION_GAMIFICATION
+                enableVibration(true)
+                enableLights(true)
+            }
+            
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(taskChannel)
             notificationManager.createNotificationChannel(scheduleChannel)
             notificationManager.createNotificationChannel(pomodoroChannel)
+            notificationManager.createNotificationChannel(gamificationChannel)
         }
     }
     
@@ -214,6 +229,90 @@ class NotificationHelper(private val context: Context) {
     
     fun cancelNotification(notificationId: Int) {
         NotificationManagerCompat.from(context).cancel(notificationId)
+    }
+    
+    fun showLevelUpNotification(newLevel: Int, xpGained: Int) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            3000,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID_GAMIFICATION)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle("🎉 ¡LEVEL UP!")
+            .setContentText("¡Has alcanzado el nivel $newLevel! (+$xpGained XP)")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("¡Increíble! Has subido al nivel $newLevel. Tu dedicación está dando frutos. ¡Sigue así! 🚀"))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(NotificationCompat.CATEGORY_STATUS)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setVibrate(longArrayOf(0, 300, 100, 300, 100, 300))
+            .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+            .build()
+        
+        NotificationManagerCompat.from(context).notify(3000, notification)
+    }
+    
+    fun showAchievementUnlockedNotification(achievementName: String, xpReward: Int) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            3001,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID_GAMIFICATION)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle("🏆 ¡Logro Desbloqueado!")
+            .setContentText("$achievementName (+$xpReward XP)")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("¡Felicidades! Has desbloqueado el logro \"$achievementName\". Tu constancia es admirable 💪"))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(NotificationCompat.CATEGORY_STATUS)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setVibrate(longArrayOf(0, 200, 100, 200))
+            .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+            .build()
+        
+        NotificationManagerCompat.from(context).notify(3001, notification)
+    }
+    
+    fun showXpGainedNotification(xpGained: Int, activity: String) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            3002,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID_GAMIFICATION)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle("⭐ ¡XP Ganado!")
+            .setContentText("+$xpGained XP por $activity")
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setCategory(NotificationCompat.CATEGORY_STATUS)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setSilent(true)
+            .build()
+        
+        NotificationManagerCompat.from(context).notify(3002, notification)
     }
     
     fun cancelAllNotifications() {

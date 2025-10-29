@@ -166,9 +166,133 @@ FocusUp es una aplicación Android moderna desarrollada en Kotlin con Jetpack Co
   - Control remoto de Pomodoro
   - Expansión a iOS y Web
 
+## 📱 **Instalación y Uso**
+
+### 🔧 **Requisitos del Sistema**
+- **Android 7.0** (API 24) o superior
+- **64 MB** de espacio libre de almacenamiento
+- **Permisos**: Cámara, Notificaciones, Biometría (opcional)
+
+### 📲 **Opción 1: Instalar APK Precompilado**
+
+#### **Descargar el APK:**
+El APK está disponible en la carpeta raíz del proyecto: `FocusUp-v1.0-debug.apk`
+
+#### **Instalación en Android:**
+1. **Habilita "Fuentes desconocidas"** en tu dispositivo:
+   - Configuración → Seguridad → Fuentes desconocidas ✅
+   - O Configuración → Aplicaciones → Acceso especial → Instalar apps desconocidas
+
+2. **Transfiere el APK** a tu celular:
+   - Por cable USB y copia directa
+   - Por WhatsApp/Email/Google Drive
+   - Por ADB: `adb install FocusUp-v1.0-debug.apk`
+
+3. **Instala la aplicación**:
+   - Navega al archivo APK en tu celular
+   - Toca el archivo para iniciar la instalación
+   - Acepta los permisos solicitados
+
+#### **Permisos que solicitará:**
+- 📷 **Cámara** - Para adjuntar fotos a las tareas
+- 🔔 **Notificaciones** - Para recordatorios de tareas y Pomodoro
+- 📁 **Almacenamiento** - Para guardar fotos de tareas
+- 🔒 **Biometría** - Para desbloqueo con huella/reconocimiento facial (opcional)
+
+### 🛠️ **Opción 2: Compilar desde Código Fuente**
+
+#### **Requisitos de Desarrollo:**
+- **Android Studio** 2024.1.1 o superior
+- **JDK 17** o superior
+- **Android SDK** con API 34
+- **Git** para clonar el repositorio
+
+#### **Pasos de Compilación:**
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/itzAragorn/FocusUp.git
+   cd FocusUp
+   git checkout dev-osses
+   ```
+
+2. **Abrir en Android Studio:**
+   - File → Open → Seleccionar carpeta FocusUp
+   - Esperar sincronización de Gradle
+
+3. **Compilar APK Debug:**
+   ```bash
+   ./gradlew clean assembleDebug
+   ```
+   **APK generado en:** `app/build/outputs/apk/debug/app-debug.apk`
+
+4. **Compilar APK Release (opcional):**
+   ```bash
+   ./gradlew clean assembleRelease
+   ```
+
+#### **Ejecutar en Emulador:**
+```bash
+./gradlew installDebug
+```
+
+#### **Instalar directamente en dispositivo conectado:**
+```bash
+adb install app/build/outputs/apk/debug/app-debug.apk
+```
+
+### 🚀 **Primeros Pasos en la App**
+
+#### **1. Registro Inicial:**
+- Abre FocusUp
+- Crea tu cuenta con email y contraseña
+- Selecciona tu perfil: **Estudiante** o **Trabajador**
+
+#### **2. Configuración Biométrica (Opcional):**
+- Ve a Perfil → Configuración
+- Activa "Autenticación Biométrica"
+- Configura huella dactilar o reconocimiento facial
+
+#### **3. Crear tu Primer Horario:**
+- Ve a la sección "Horarios"
+- Toca "+" para agregar un bloque
+- Completa: Nombre, horario, color
+- **Estudiantes**: Agrega profesor y sala
+
+#### **4. Agregar Tareas:**
+- Ve al "Calendario"
+- Selecciona una fecha
+- Toca "+" para crear tarea
+- Agrega descripción, hora, prioridad
+- Opcional: Adjunta una foto
+
+#### **5. Usar Técnica Pomodoro:**
+- Ve a la sección "Pomodoro"
+- Selecciona duración (25/45/60 minutos)
+- Inicia tu sesión de enfoque
+- Disfruta los descansos automáticos
+
+#### **6. Ver tu Progreso:**
+- **Dashboard**: Métricas de productividad
+- **Logros**: Ve tu progreso de gamificación
+- **Estadísticas**: Gráficos de rendimiento
+
+### 🎮 **Sistema de Gamificación**
+- **Gana XP** completando tareas y sesiones Pomodoro
+- **Sube de nivel** automáticamente (10 niveles disponibles)
+- **Desbloquea logros** por hitos de productividad
+- **Recibe notificaciones** de recompensas
+
+### 📊 **Funcionalidades Principales**
+- ✅ **Gestión de tareas** con fotos y recordatorios
+- ✅ **Horarios semanales** diferenciados por perfil
+- ✅ **Técnica Pomodoro** con gamificación integrada
+- ✅ **Dashboard estadístico** con métricas visuales
+- ✅ **Sistema de logros** motivacional
+- ✅ **Autenticación biométrica** segura
+
 ## 🎯 **Próximos Pasos Recomendados**
 
-### Para continuar el desarrollo:
+### Para desarrolladores que quieren contribuir:
 
 1. **Compilar y probar la versión actual:**
    ```bash
@@ -269,3 +393,71 @@ FocusUp es una aplicación Android moderna desarrollada en Kotlin con Jetpack Co
 - Personalización de colores y preferencias
 - Feedback visual inmediato en todas las acciones
 - Onboarding y guías contextuales
+
+## 🔧 **Solución de Problemas**
+
+### **Problemas de Instalación**
+
+#### **"App no instalada" o "Parse Error":**
+- ✅ Verifica que tu Android sea **7.0 o superior**
+- ✅ Asegúrate de tener **espacio suficiente** (64+ MB)
+- ✅ Descarga nuevamente el APK si está corrupto
+- ✅ Habilita **"Fuentes desconocidas"** en configuración
+
+#### **"Permisos denegados":**
+- ✅ Ve a Configuración → Aplicaciones → FocusUp → Permisos
+- ✅ Activa manualmente: **Cámara**, **Notificaciones**, **Almacenamiento**
+- ✅ Para biometría: Configuración → Seguridad → Huella dactilar
+
+### **Problemas de Funcionamiento**
+
+#### **Las notificaciones no aparecen:**
+- ✅ Configuración → Aplicaciones → FocusUp → Notificaciones → **Activar**
+- ✅ Configuración → Batería → Optimización → **Excluir FocusUp**
+- ✅ Verifica que tengas **permisos de notificaciones**
+
+#### **La cámara no funciona:**
+- ✅ Configuración → Aplicaciones → FocusUp → Permisos → **Cámara: Permitir**
+- ✅ Cierra otras apps que usen la cámara
+- ✅ Reinicia la aplicación
+
+#### **Autenticación biométrica falla:**
+- ✅ Verifica que tu dispositivo **soporte biometría**
+- ✅ Configura huella/reconocimiento facial en **Configuración del sistema**
+- ✅ Si falla, usa **contraseña como alternativa**
+
+#### **Los datos se pierden:**
+- ✅ La app usa **base de datos local** (Room)
+- ✅ No desinstales la app para conservar datos
+- ✅ Los datos se guardan automáticamente
+
+### **Problemas de Compilación (Desarrolladores)**
+
+#### **"Gradle sync failed":**
+```bash
+./gradlew clean
+./gradlew build --refresh-dependencies
+```
+
+#### **"KSP compilation error":**
+- ✅ Verifica que uses **JDK 17+**
+- ✅ Android Studio **2024.1.1+**
+- ✅ Sincroniza proyecto: Tools → Sync Project with Gradle Files
+
+#### **"Build failed" en APK:**
+```bash
+./gradlew clean
+./gradlew assembleDebug --stacktrace
+```
+
+### **📞 Soporte**
+- **Repositorio**: https://github.com/itzAragorn/FocusUp
+- **Issues**: Reporta problemas en GitHub Issues
+- **Documentación**: Revisa PROGRESS.md para detalles técnicos
+
+### **📊 Información del Sistema**
+- **Versión actual**: 1.0 (Debug)
+- **API mínima**: Android 24 (Android 7.0)
+- **Tamaño**: ~22 MB
+- **Arquitectura**: MVVM con Room Database
+- **Lenguaje**: 100% Kotlin con Jetpack Compose

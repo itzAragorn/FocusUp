@@ -79,6 +79,13 @@ dependencies {
     // Biometric authentication
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
     
+    // Charts and animations for Dashboard
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
+    
+    // Gson for JSON serialization (TypeConverters)
+    implementation("com.google.code.gson:gson:2.10.1")
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

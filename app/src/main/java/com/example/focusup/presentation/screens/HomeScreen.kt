@@ -32,6 +32,7 @@ fun HomeScreen(
     onNavigateToStats: () -> Unit = {},
     onNavigateToTaskList: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {},
+    onNavigateToDashboard: () -> Unit = {},
     homeScreenViewModel: HomeScreenViewModel
 ) {
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -116,6 +117,7 @@ fun HomeScreen(
                     onNavigateToPomodoro = onNavigateToPomodoro,
                     onNavigateToStats = onNavigateToStats,
                     onNavigateToTaskList = onNavigateToTaskList,
+                    onNavigateToDashboard = onNavigateToDashboard,
                     profileType = user?.profileType
                 )
             }
@@ -274,6 +276,7 @@ private fun QuickActionsCard(
     onNavigateToPomodoro: () -> Unit = {},
     onNavigateToStats: () -> Unit = {},
     onNavigateToTaskList: () -> Unit = {},
+    onNavigateToDashboard: () -> Unit = {},
     profileType: String?
 ) {
     Card(
@@ -295,14 +298,10 @@ private fun QuickActionsCard(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 OutlinedButton(
-                    onClick = onNavigateToSchedule,
+                    onClick = onNavigateToDashboard,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(Icons.Default.List, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if (profileType == ProfileType.STUDENT.name) "Ver clases" else "Ver horario"
-                    )
+                    Text("📊 Dashboard")
                 }
                 
                 OutlinedButton(
@@ -317,7 +316,35 @@ private fun QuickActionsCard(
             
             Spacer(modifier = Modifier.height(12.dp))
             
-            // Segunda fila de botones - Pomodoro y Estadísticas
+            // Segunda fila de botones
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                OutlinedButton(
+                    onClick = onNavigateToSchedule,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(Icons.Default.List, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (profileType == ProfileType.STUDENT.name) "Ver clases" else "Ver horario"
+                    )
+                }
+                
+                OutlinedButton(
+                    onClick = onNavigateToCalendar,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(Icons.Default.CalendarToday, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Calendario")
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(12.dp))
+            
+            // Tercera fila de botones - Pomodoro y Estadísticas
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)

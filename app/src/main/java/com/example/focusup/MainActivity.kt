@@ -12,6 +12,9 @@ import com.example.focusup.data.repository.UserRepository
 import com.example.focusup.data.repository.TaskRepository
 import com.example.focusup.data.repository.ScheduleRepository
 import com.example.focusup.data.repository.ProductivityStatsRepository
+import com.example.focusup.data.repository.DailyStatsRepository
+import com.example.focusup.data.repository.AchievementRepository
+import com.example.focusup.data.repository.UserProgressRepository
 import com.example.focusup.presentation.navigation.FocusUpNavigation
 import com.example.focusup.presentation.viewmodels.AuthViewModel
 import com.example.focusup.presentation.viewmodels.TaskViewModel
@@ -21,6 +24,8 @@ import com.example.focusup.presentation.viewmodels.CalendarScreenViewModel
 import com.example.focusup.presentation.viewmodels.HomeScreenViewModel
 import com.example.focusup.presentation.viewmodels.PomodoroViewModel
 import com.example.focusup.presentation.viewmodels.StatsViewModel
+import com.example.focusup.presentation.viewmodels.DashboardViewModel
+import com.example.focusup.presentation.viewmodels.GamificationViewModel
 import com.example.focusup.notifications.NotificationHelper
 import com.example.focusup.workers.RecurrenceWorker
 import com.example.focusup.ui.theme.FocusUpTheme
@@ -36,6 +41,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var homeScreenViewModel: HomeScreenViewModel
     private lateinit var pomodoroViewModel: PomodoroViewModel
     private lateinit var statsViewModel: StatsViewModel
+    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var gamificationViewModel: GamificationViewModel
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,18 +55,36 @@ class MainActivity : ComponentActivity() {
             val taskRepository = TaskRepository(database.taskDao())
             val scheduleRepository = ScheduleRepository(database.scheduleBlockDao())
             val statsRepository = ProductivityStatsRepository(database.productivityStatsDao())
+            val dailyStatsRepository = DailyStatsRepository(database.dailyStatsDao())
+            val achievementRepository = AchievementRepository(database.achievementDao())
+            val userProgressRepository = UserProgressRepository(database.userProgressDao())
             val notificationHelper = NotificationHelper(this)
             val userPreferencesManager = UserPreferencesManager(this)
             
             // Crear ViewModels manualmente (en un proyecto real usarías Hilt/Dagger)
             authViewModel = AuthViewModel(userRepository, userPreferencesManager)
-            taskViewModel = TaskViewModel(taskRepository)
+            
+            // *** CREAR GAMIFICATION VIEWMODEL PRIMERO ***
+            gamificationViewModel = GamificationViewModel(
+                userId = 1L, // TODO: Get from current user
+                achievementRepository = achievementRepository,
+                userProgressRepository = userProgressRepository,
+                notificationHelper = notificationHelper
+            )
+            
+            // *** CREAR OTROS VIEWMODELS CON GAMIFICACIÓN INTEGRADA ***
+            taskViewModel = TaskViewModel(taskRepository, dailyStatsRepository, 1L, gamificationViewModel)
             scheduleViewModel = ScheduleViewModel(scheduleRepository)
             scheduleScreenViewModel = ScheduleScreenViewModel(scheduleRepository)
             calendarScreenViewModel = CalendarScreenViewModel(taskRepository)
             homeScreenViewModel = HomeScreenViewModel(taskRepository, scheduleRepository)
-            pomodoroViewModel = PomodoroViewModel(notificationHelper, statsRepository)
+            pomodoroViewModel = PomodoroViewModel(notificationHelper, statsRepository, dailyStatsRepository, 1L, gamificationViewModel)
             statsViewModel = StatsViewModel(statsRepository)
+            dashboardViewModel = DashboardViewModel(
+                userId = 1L, // TODO: Get from current user
+                dailyStatsRepository = dailyStatsRepository,
+                taskRepository = taskRepository
+            )
             
             // Programar RecurrenceWorker para verificar tareas recurrentes diariamente
             scheduleRecurrenceWorker()
@@ -77,7 +102,9 @@ class MainActivity : ComponentActivity() {
                         calendarScreenViewModel = calendarScreenViewModel,
                         homeScreenViewModel = homeScreenViewModel,
                         pomodoroViewModel = pomodoroViewModel,
-                        statsViewModel = statsViewModel
+                        statsViewModel = statsViewModel,
+                        dashboardViewModel = dashboardViewModel,
+                        gamificationViewModel = gamificationViewModel
                     )
                 }
             }

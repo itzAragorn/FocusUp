@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.focusup.presentation.viewmodels.StatsViewModel
 import com.example.focusup.presentation.components.LoadingState
+import com.example.focusup.ui.theme.ElectricPurple
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,46 +56,76 @@ fun StatsScreen(
         if (uiState.isLoading) {
             LoadingState(message = "Cargando estadísticas...")
         } else {
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Resumen del día
-                item {
-                    TodaySummaryCard(
-                        tasksCompleted = uiState.todayStats?.tasksCompleted ?: 0,
-                        pomodorosCompleted = uiState.todayStats?.pomodorosCompleted ?: 0,
-                        studyTimeMinutes = uiState.todayStats?.studyTimeMinutes ?: 0,
-                        completionRate = statsViewModel.getCompletionRate()
-                    )
+                // Tabs para diferentes períodos de análisis
+                var selectedTab by remember { mutableIntStateOf(0) }
+                val tabs = listOf("Semana", "Mes", "Año", "Todo")
+                
+                ScrollableTabRow(
+                    selectedTabIndex = selectedTab,
+                    modifier = Modifier.fillMaxWidth(),
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = ElectricPurple
+                ) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            text = {
+                                Text(
+                                    text = title,
+                                    fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
+                                )
+                            }
+                        )
+                    }
                 }
                 
-                // Racha de días
-                item {
-                    StreakCard(
-                        currentStreak = uiState.currentStreak,
-                        longestStreak = uiState.longestStreak
-                    )
-                }
-                
-                // Gráfico semanal simple
-                item {
-                    WeeklyProgressCard(
-                        weeklyStats = uiState.weeklyStats,
-                        weeklyAverage = statsViewModel.getWeeklyAverage()
-                    )
-                }
-                
-                // Totales generales
-                item {
-                    TotalsCard(
-                        totalTasks = uiState.totalTasksCompleted,
-                        totalPomodoros = uiState.totalPomodoros,
-                        totalStudyTime = statsViewModel.getTotalStudyTimeFormatted()
-                    )
+                // Contenido según la pestaña seleccionada
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    when (selectedTab) {
+                        0 -> { // Semana
+                            item {
+                                WeeklyAnalysisSection(
+                                    uiState = uiState,
+                                    statsViewModel = statsViewModel
+                                )
+                            }
+                        }
+                        1 -> { // Mes
+                            item {
+                                MonthlyAnalysisSection(
+                                    uiState = uiState,
+                                    statsViewModel = statsViewModel
+                                )
+                            }
+                        }
+                        2 -> { // Año
+                            item {
+                                YearlyAnalysisSection(
+                                    uiState = uiState,
+                                    statsViewModel = statsViewModel
+                                )
+                            }
+                        }
+                        3 -> { // Todo
+                            item {
+                                AllTimeAnalysisSection(
+                                    uiState = uiState,
+                                    statsViewModel = statsViewModel
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -411,6 +442,303 @@ private fun TotalItem(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
+
+@Composable
+private fun WeeklyAnalysisSection(
+    uiState: com.example.focusup.presentation.viewmodels.StatsUiState,
+    statsViewModel: StatsViewModel
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        // Header
+        AnalysisHeader(
+            title = "Análisis Semanal",
+            subtitle = "Tu productividad de los últimos 7 días"
+        )
+        
+        // Gráfico mejorado
+        WeeklyProgressCard(
+            weeklyStats = uiState.weeklyStats,
+            weeklyAverage = statsViewModel.getWeeklyAverage()
+        )
+        
+        // Métricas clave
+        WeeklyMetricsGrid(uiState = uiState)
+        
+        // Comparativa con semana anterior
+        WeekComparisonCard(uiState = uiState)
+    }
+}
+
+@Composable
+private fun MonthlyAnalysisSection(
+    uiState: com.example.focusup.presentation.viewmodels.StatsUiState,
+    statsViewModel: StatsViewModel
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        AnalysisHeader(
+            title = "Análisis Mensual", 
+            subtitle = "Tendencias y patrones del mes"
+        )
+        
+        // Placeholder para gráfico mensual
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("📈 Gráfico mensual próximamente", style = MaterialTheme.typography.bodyLarge)
+            }
+        }
+        
+        // Totales del mes
+        MonthlyTotalsCard(uiState = uiState)
+    }
+}
+
+@Composable
+private fun YearlyAnalysisSection(
+    uiState: com.example.focusup.presentation.viewmodels.StatsUiState,
+    statsViewModel: StatsViewModel
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        AnalysisHeader(
+            title = "Análisis Anual",
+            subtitle = "Tu progreso durante todo el año"
+        )
+        
+        // Placeholder para métricas anuales
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(
+                modifier = Modifier.padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text("🎯 Resumen Anual", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text("Función disponible próximamente con más datos históricos", style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AllTimeAnalysisSection(
+    uiState: com.example.focusup.presentation.viewmodels.StatsUiState,
+    statsViewModel: StatsViewModel
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        AnalysisHeader(
+            title = "Estadísticas Totales",
+            subtitle = "Todo tu historial de productividad"
+        )
+        
+        // Totales generales mejorados
+        TotalsCard(
+            totalTasks = uiState.totalTasksCompleted,
+            totalPomodoros = uiState.totalPomodoros,
+            totalStudyTime = statsViewModel.getTotalStudyTimeFormatted()
+        )
+        
+        // Récords personales
+        PersonalRecordsCard(uiState = uiState)
+        
+        // Racha histórica
+        StreakCard(
+            currentStreak = uiState.currentStreak,
+            longestStreak = uiState.longestStreak
+        )
+    }
+}
+
+@Composable
+private fun AnalysisHeader(title: String, subtitle: String) {
+    Column {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            color = ElectricPurple
+        )
+        Text(
+            text = subtitle,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+        )
+    }
+}
+
+@Composable
+private fun WeeklyMetricsGrid(uiState: com.example.focusup.presentation.viewmodels.StatsUiState) {
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(4) { index ->
+            val (title, value, icon) = when(index) {
+                0 -> Triple("Promedio diario", "${uiState.weeklyStats.sumOf { it.studyTimeMinutes } / 7} min", Icons.Default.Schedule)
+                1 -> Triple("Mejor día", "${uiState.weeklyStats.maxByOrNull { it.studyTimeMinutes }?.studyTimeMinutes ?: 0} min", Icons.Default.Star)
+                2 -> Triple("Días activos", "${uiState.weeklyStats.count { it.studyTimeMinutes > 0 }}/7", Icons.Default.CheckCircle)
+                else -> Triple("Consistency", "${if(uiState.weeklyStats.count { it.studyTimeMinutes > 0 } >= 5) "Alta" else "Media"}", Icons.Default.TrendingUp)
+            }
+            
+            MetricCard(
+                title = title,
+                value = value,
+                icon = icon
+            )
+        }
+    }
+}
+
+@Composable
+private fun MetricCard(title: String, value: String, icon: ImageVector) {
+    Card(
+        modifier = Modifier.width(140.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = ElectricPurple,
+                modifier = Modifier.size(32.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = value,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = ElectricPurple
+            )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun WeekComparisonCard(uiState: com.example.focusup.presentation.viewmodels.StatsUiState) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
+        ) {
+            Text(
+                text = "📊 Comparativa Semanal",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "Función disponible próximamente - compararemos tu productividad con semanas anteriores",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun MonthlyTotalsCard(uiState: com.example.focusup.presentation.viewmodels.StatsUiState) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
+        ) {
+            Text(
+                text = "📈 Totales del Mes",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "Próximamente: estadísticas detalladas del mes actual y comparativas",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun PersonalRecordsCard(uiState: com.example.focusup.presentation.viewmodels.StatsUiState) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = ElectricPurple.copy(alpha = 0.1f))
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
+        ) {
+            Text(
+                text = "🏆 Récords Personales",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = ElectricPurple
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            // Récord de racha
+            RecordItem(
+                title = "Racha más larga",
+                value = "${uiState.longestStreak} días",
+                icon = "🔥"
+            )
+            
+            RecordItem(
+                title = "Total de Pomodoros",
+                value = "${uiState.totalPomodoros}",
+                icon = "🍅"
+            )
+            
+            RecordItem(
+                title = "Tareas completadas",
+                value = "${uiState.totalTasksCompleted}",
+                icon = "✅"
+            )
+        }
+    }
+}
+
+@Composable
+private fun RecordItem(title: String, value: String, icon: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = icon, style = MaterialTheme.typography.titleMedium)
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+        Text(
+            text = value,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = ElectricPurple
         )
     }
 }

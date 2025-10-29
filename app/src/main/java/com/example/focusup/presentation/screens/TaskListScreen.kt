@@ -27,7 +27,8 @@ fun TaskListScreen(
     onNavigateBack: () -> Unit,
     onAddTask: () -> Unit,
     calendarScreenViewModel: CalendarScreenViewModel,
-    taskViewModel: TaskViewModel
+    taskViewModel: TaskViewModel,
+    userId: Long
 ) {
     var showFilterSheet by remember { mutableStateOf(false) }
     var showDeleteTaskDialog by remember { mutableStateOf(false) }
@@ -35,6 +36,11 @@ fun TaskListScreen(
     var refreshTrigger by remember { mutableStateOf(0) }
     val uiState by calendarScreenViewModel.uiState.collectAsState()
     val taskUiState by taskViewModel.uiState.collectAsState()
+    
+    // Cargar las tareas del usuario cuando se abre la pantalla
+    LaunchedEffect(userId, refreshTrigger) {
+        calendarScreenViewModel.loadTasksForUser(userId)
+    }
     
     Scaffold(
         topBar = {

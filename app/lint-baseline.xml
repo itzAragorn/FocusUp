@@ -1,0 +1,1379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.9.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.9.1)" variant="all" version="8.9.1">
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify(taskId.toInt(), notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="116"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify(blockId.toInt(), notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="141"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify(notificationId, notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="170"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify(999, notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="199"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify((taskId + 10000).toInt(), notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="227"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify(3000, notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="260"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify(3001, notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="289"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="        NotificationManagerCompat.from(context).notify(3002, notification)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/NotificationHelper.kt"
+            line="315"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ScopedStorage"
+        message="READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`."
+        errorLine1="    &lt;uses-permission android:name=&quot;android.permission.READ_EXTERNAL_STORAGE&quot; />"
+        errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="8"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="                    val formattedTime = String.format("
+        errorLine2="                                        ^">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/AddScheduleBlockScreen.kt"
+            line="536"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="                    val formattedTime = String.format("
+        errorLine2="                                        ^">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/AddTaskScreen.kt"
+            line="542"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="        return String.format(&quot;%02d:%02d&quot;, minutes, seconds)"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/domain/model/PomodoroSession.kt"
+            line="26"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="                    text = &quot;Tasa de completado: ${String.format(&quot;%.0f&quot;, completionRate)}%&quot;,"
+        errorLine2="                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/StatsScreen.kt"
+            line="184"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="                    text = &quot;Promedio: ${String.format(&quot;%.1f&quot;, weeklyAverage)} tareas/día&quot;,"
+        errorLine2="                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/StatsScreen.kt"
+            line="307"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        message="Call requires API level 26, or core library desugaring (current min is 24): `java.time.LocalTime#getHour`"
+        errorLine1="                    val currentHour = LocalTime.now().hour"
+        errorLine2="                                                      ~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/viewmodels/PomodoroViewModel.kt"
+            line="222"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        message="Call requires API level 26, or core library desugaring (current min is 24): `java.time.LocalTime#now`"
+        errorLine1="                    val currentHour = LocalTime.now().hour"
+        errorLine2="                                                ~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/viewmodels/PomodoroViewModel.kt"
+            line="222"
+            column="49"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the `android.os.Build.VERSION_CODES` javadoc for details."
+        errorLine1="        targetSdk = 34"
+        errorLine2="        ~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="15"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RedundantLabel"
+        message="Redundant label can be removed"
+        errorLine1="            android:label=&quot;@string/app_name&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SelectedPhotoAccess"
+        message="Your app is currently not handling Selected Photos Access introduced in Android 14+"
+        errorLine1="    &lt;uses-permission android:name=&quot;android.permission.READ_MEDIA_IMAGES&quot; />"
+        errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="9"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.9.1 is available: 8.13.1. (There is also a newer version of 8.9.𝑥 available, if upgrading to 8.13.1 is difficult: 8.9.3)"
+        errorLine1="agp = &quot;8.9.1&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.9.1 is available: 8.13.1. (There is also a newer version of 8.9.𝑥 available, if upgrading to 8.13.1 is difficult: 8.9.3)"
+        errorLine1="agp = &quot;8.9.1&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.9.1 is available: 8.13.1. (There is also a newer version of 8.9.𝑥 available, if upgrading to 8.13.1 is difficult: 8.9.3)"
+        errorLine1="agp = &quot;8.9.1&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.09.00 is available: 2025.11.00"
+        errorLine1="composeBom = &quot;2024.09.00&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="10"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.09.00 is available: 2025.11.00"
+        errorLine1="composeBom = &quot;2024.09.00&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="10"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.09.00 is available: 2025.11.00"
+        errorLine1="composeBom = &quot;2024.09.00&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="10"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.3"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.8.3 is available: 2.9.6"
+        errorLine1="navigation = &quot;2.8.3&quot;"
+        errorLine2="             ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="19"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.8.3 is available: 2.9.6"
+        errorLine1="navigation = &quot;2.8.3&quot;"
+        errorLine2="             ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="19"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.8.3 is available: 2.9.6"
+        errorLine1="navigation = &quot;2.8.3&quot;"
+        errorLine2="             ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="19"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-android than 1.7.3 is available: 1.8.1"
+        errorLine1="coroutines = &quot;1.7.3&quot;"
+        errorLine2="             ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="22"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-android than 1.7.3 is available: 1.8.1"
+        errorLine1="coroutines = &quot;1.7.3&quot;"
+        errorLine2="             ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="22"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-android than 1.7.3 is available: 1.8.1"
+        errorLine1="coroutines = &quot;1.7.3&quot;"
+        errorLine2="             ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="22"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.datastore:datastore-preferences than 1.1.1 is available: 1.1.7"
+        errorLine1="datastore = &quot;1.1.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="25"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.datastore:datastore-preferences than 1.1.1 is available: 1.1.7"
+        errorLine1="datastore = &quot;1.1.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="25"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.datastore:datastore-preferences than 1.1.1 is available: 1.1.7"
+        errorLine1="datastore = &quot;1.1.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="25"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-camera2 than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-camera2 than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-camera2 than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-core than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-core than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-core than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-lifecycle than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-lifecycle than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-lifecycle than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-view than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-view than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.camera:camera-view than 1.4.0 is available: 1.5.1"
+        errorLine1="camerax = &quot;1.4.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.9.1 is available: 2.11.0"
+        errorLine1="workManager = &quot;2.9.1&quot;"
+        errorLine2="              ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="34"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.9.1 is available: 2.11.0"
+        errorLine1="workManager = &quot;2.9.1&quot;"
+        errorLine2="              ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="34"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.9.1 is available: 2.11.0"
+        errorLine1="workManager = &quot;2.9.1&quot;"
+        errorLine2="              ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="34"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/AttachmentComponents.kt"
+            line="151"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/DashboardComponents.kt"
+            line="325"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/EmptyState.kt"
+            line="23"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/LoadingState.kt"
+            line="18"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/QuoteComponents.kt"
+            line="36"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Optional Modifier parameter should have a default value of `Modifier`"
+        errorLine1="    modifier: androidx.compose.ui.Modifier = androidx.compose.ui.Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/SnackbarManager.kt"
+            line="113"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/SwipeToDelete.kt"
+            line="100"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/TagComponents.kt"
+            line="26"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; `SDK_INT` is always >= 24"
+        errorLine1="            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/AlarmScheduler.kt"
+            line="60"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; `SDK_INT` is always >= 24"
+        errorLine1="            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/notifications/AlarmScheduler.kt"
+            line="82"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var selectedTab by remember { mutableStateOf(0) }"
+        errorLine2="                                  ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/AchievementScreen.kt"
+            line="33"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var selectedDayState by remember { mutableStateOf(selectedDay) }"
+        errorLine2="                                       ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/AddScheduleBlockScreen.kt"
+            line="35"
+            column="40"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var refreshTrigger by remember { mutableStateOf(0) }"
+        errorLine2="                                     ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/CalendarScreen.kt"
+            line="53"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var localRefreshTrigger by remember { mutableStateOf(0) }"
+        errorLine2="                                          ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/CalendarScreen.kt"
+            line="545"
+            column="43"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var lastXpGained by remember { mutableStateOf(0) }"
+        errorLine2="                                   ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/DashboardScreen.kt"
+            line="54"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var currentIndex by remember { mutableStateOf(0) }"
+        errorLine2="                                   ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/gamification/GamificationDialogs.kt"
+            line="165"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var refreshTrigger by remember { mutableStateOf(0) }"
+        errorLine2="                                     ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/TaskListScreen.kt"
+            line="36"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.electric_purple_light` appears to be unused"
+        errorLine1="    &lt;color name=&quot;electric_purple_light&quot;>#A78BFA&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="5"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.dark_graphite_light` appears to be unused"
+        errorLine1="    &lt;color name=&quot;dark_graphite_light&quot;>#2A2A2A&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="10"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.dark_graphite_lighter` appears to be unused"
+        errorLine1="    &lt;color name=&quot;dark_graphite_lighter&quot;>#3A3A3A&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="11"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.surface_dark` appears to be unused"
+        errorLine1="    &lt;color name=&quot;surface_dark&quot;>#252525&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="14"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.text_tertiary` appears to be unused"
+        errorLine1="    &lt;color name=&quot;text_tertiary&quot;>#808080&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="20"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.white` appears to be unused"
+        errorLine1="    &lt;color name=&quot;white&quot;>#FFFFFFFF&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="23"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.black` appears to be unused"
+        errorLine1="    &lt;color name=&quot;black&quot;>#FF000000&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="24"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.empty_tasks_title` appears to be unused"
+        errorLine1="    &lt;string name=&quot;empty_tasks_title&quot;>Sin tareas pendientes&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="5"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.empty_tasks_description` appears to be unused"
+        errorLine1="    &lt;string name=&quot;empty_tasks_description&quot;>¡Genial! No tienes tareas por hacer. Agrega una nueva para comenzar a organizar tu día.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="6"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.empty_schedule_title` appears to be unused"
+        errorLine1="    &lt;string name=&quot;empty_schedule_title&quot;>Sin bloques programados&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="7"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.empty_schedule_description` appears to be unused"
+        errorLine1="    &lt;string name=&quot;empty_schedule_description&quot;>Crea bloques de tiempo para organizar tu día y mejorar tu productividad.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="8"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.empty_calendar_title` appears to be unused"
+        errorLine1="    &lt;string name=&quot;empty_calendar_title&quot;>Sin eventos este día&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="9"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.empty_calendar_description` appears to be unused"
+        errorLine1="    &lt;string name=&quot;empty_calendar_description&quot;>No hay tareas ni bloques programados para esta fecha.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="10"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.loading_general` appears to be unused"
+        errorLine1="    &lt;string name=&quot;loading_general&quot;>Cargando...&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="13"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.loading_tasks` appears to be unused"
+        errorLine1="    &lt;string name=&quot;loading_tasks&quot;>Cargando tareas...&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="14"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.loading_schedule` appears to be unused"
+        errorLine1="    &lt;string name=&quot;loading_schedule&quot;>Cargando horario...&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="15"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.task_created` appears to be unused"
+        errorLine1="    &lt;string name=&quot;task_created&quot;>Tarea creada exitosamente&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="18"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.task_updated` appears to be unused"
+        errorLine1="    &lt;string name=&quot;task_updated&quot;>Tarea actualizada&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="19"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.task_deleted` appears to be unused"
+        errorLine1="    &lt;string name=&quot;task_deleted&quot;>Tarea eliminada&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.task_completed` appears to be unused"
+        errorLine1="    &lt;string name=&quot;task_completed&quot;>¡Tarea completada!&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.schedule_created` appears to be unused"
+        errorLine1="    &lt;string name=&quot;schedule_created&quot;>Bloque agregado al horario&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.schedule_deleted` appears to be unused"
+        errorLine1="    &lt;string name=&quot;schedule_deleted&quot;>Bloque eliminado&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="23"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_general` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_general&quot;>Ocurrió un error&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="26"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_network` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_network&quot;>Error de conexión&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="27"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_loading` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_loading&quot;>Error al cargar datos&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="28"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.action_add` appears to be unused"
+        errorLine1="    &lt;string name=&quot;action_add&quot;>Agregar&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="31"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.action_edit` appears to be unused"
+        errorLine1="    &lt;string name=&quot;action_edit&quot;>Editar&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="32"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.action_delete` appears to be unused"
+        errorLine1="    &lt;string name=&quot;action_delete&quot;>Eliminar&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="33"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.action_undo` appears to be unused"
+        errorLine1="    &lt;string name=&quot;action_undo&quot;>Deshacer&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="34"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.action_retry` appears to be unused"
+        errorLine1="    &lt;string name=&quot;action_retry&quot;>Reintentar&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.action_dismiss` appears to be unused"
+        errorLine1="    &lt;string name=&quot;action_dismiss&quot;>Cerrar&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="36"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseOfNonLambdaOffsetOverload"
+        message="State backed values should use the lambda overload of Modifier.offset"
+        errorLine1="                .offset(y = iconOffset.dp),"
+        errorLine2="                 ~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/EmptyState.kt"
+            line="62"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="UseOfNonLambdaOffsetOverload"
+        message="State backed values should use the lambda overload of Modifier.offset"
+        errorLine1="        modifier = modifier.offset(y = offsetY),"
+        errorLine2="                            ~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/gamification/XpComponents.kt"
+            line="251"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="TypographyEllipsis"
+        message="Replace &quot;...&quot; with ellipsis character (…, &amp;#8230;) ?"
+        errorLine1="    &lt;string name=&quot;loading_general&quot;>Cargando...&lt;/string>"
+        errorLine2="                                   ~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="13"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="TypographyEllipsis"
+        message="Replace &quot;...&quot; with ellipsis character (…, &amp;#8230;) ?"
+        errorLine1="    &lt;string name=&quot;loading_tasks&quot;>Cargando tareas...&lt;/string>"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="14"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="TypographyEllipsis"
+        message="Replace &quot;...&quot; with ellipsis character (…, &amp;#8230;) ?"
+        errorLine1="    &lt;string name=&quot;loading_schedule&quot;>Cargando horario...&lt;/string>"
+        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="15"
+            column="37"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `String.toColorInt` instead?"
+        errorLine1="                                    color = Color(android.graphics.Color.parseColor(selectedColor)),"
+        errorLine2="                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/AddScheduleBlockScreen.kt"
+            line="267"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `String.toColorInt` instead?"
+        errorLine1="                                        color = Color(android.graphics.Color.parseColor(colorHex)),"
+        errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/AddScheduleBlockScreen.kt"
+            line="469"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `String.toUri` instead?"
+        errorLine1="                                    setDataAndType(Uri.parse(attachment.uri), getMimeType(attachment))"
+        errorLine2="                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/AttachmentComponents.kt"
+            line="125"
+            column="52"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `String.toUri` instead?"
+        errorLine1="                                setDataAndType(Uri.parse(attachment.uri), getMimeType(attachment))"
+        errorLine2="                                               ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/components/AttachmentComponents.kt"
+            line="256"
+            column="48"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `String.toColorInt` instead?"
+        errorLine1="        Color(android.graphics.Color.parseColor(scheduleBlock.color))"
+        errorLine2="              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/presentation/screens/ScheduleScreen.kt"
+            line="355"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead (io.coil-kt:coil-compose is already available as `coil-compose`, but using version 2.7.0 instead)"
+        errorLine1="    implementation(&quot;io.coil-kt:coil-compose:2.5.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="85"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;androidx.biometric:biometric:1.2.0-alpha05&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="88"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;com.github.PhilJay:MPAndroidChart:v3.1.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="91"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;com.airbnb.android:lottie-compose:6.1.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="92"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;com.google.code.gson:gson:2.10.1&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="95"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val dateFormatter = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())"
+        errorLine2="                                                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/utils/DateTimeUtils.kt"
+            line="13"
+            column="63"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val timeFormatter = SimpleDateFormat(TIME_FORMAT, Locale.getDefault())"
+        errorLine2="                                                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/utils/DateTimeUtils.kt"
+            line="14"
+            column="63"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val displayDateFormatter = SimpleDateFormat(DISPLAY_DATE_FORMAT, Locale.getDefault())"
+        errorLine2="                                                                             ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/utils/DateTimeUtils.kt"
+            line="15"
+            column="78"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val displayTimeFormatter = SimpleDateFormat(DISPLAY_TIME_FORMAT, Locale.getDefault())"
+        errorLine2="                                                                             ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/example/focusup/utils/DateTimeUtils.kt"
+            line="16"
+            column="78"/>
+    </issue>
+
+</issues>

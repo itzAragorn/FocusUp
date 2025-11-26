@@ -15,6 +15,10 @@
     
     <!-- Permiso para vibración en notificaciones -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    
+    <!-- Permiso para conexión a internet (API externa) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"

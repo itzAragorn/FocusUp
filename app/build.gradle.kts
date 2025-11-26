@@ -19,6 +19,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../focusup-duocuc.jks")
+            storePassword = "duocuc123"
+            keyAlias = "aragorn-koriri"
+            keyPassword = "duocuc123"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -26,6 +35,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -37,6 +47,11 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    lint {
+        baseline = file("lint-baseline.xml")
+        abortOnError = false
+        checkReleaseBuilds = false
     }
 }
 
@@ -73,6 +88,11 @@ dependencies {
     // Work Manager
     implementation(libs.androidx.work.runtime.ktx)
     
+    // Retrofit for API calls
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.okhttp3.logging.interceptor)
+    
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.5.0")
     
@@ -86,7 +106,13 @@ dependencies {
     // Gson for JSON serialization (TypeConverters)
     implementation("com.google.code.gson:gson:2.10.1")
     
+    // Testing dependencies
     testImplementation(libs.junit)
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+    
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

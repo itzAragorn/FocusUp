@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
 import java.util.concurrent.TimeUnit
@@ -26,6 +27,8 @@ import com.example.focusup.presentation.viewmodels.PomodoroViewModel
 import com.example.focusup.presentation.viewmodels.StatsViewModel
 import com.example.focusup.presentation.viewmodels.DashboardViewModel
 import com.example.focusup.presentation.viewmodels.GamificationViewModel
+import com.example.focusup.presentation.viewmodels.QuotesViewModel
+import com.example.focusup.data.repository.QuotesRepository
 import com.example.focusup.notifications.NotificationHelper
 import com.example.focusup.workers.RecurrenceWorker
 import com.example.focusup.ui.theme.FocusUpTheme
@@ -33,6 +36,7 @@ import com.example.focusup.utils.UserPreferencesManager
 
 class MainActivity : ComponentActivity() {
     
+    // ViewModels
     private lateinit var authViewModel: AuthViewModel
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var scheduleViewModel: ScheduleViewModel
@@ -43,53 +47,69 @@ class MainActivity : ComponentActivity() {
     private lateinit var statsViewModel: StatsViewModel
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var gamificationViewModel: GamificationViewModel
+    private lateinit var quotesViewModel: QuotesViewModel
+    
+    // Repositorios y dependencias compartidas
+    private lateinit var database: FocusUpDatabase
+    private lateinit var userRepository: UserRepository
+    private lateinit var taskRepository: TaskRepository
+    private lateinit var scheduleRepository: ScheduleRepository
+    private lateinit var achievementRepository: AchievementRepository
+    private lateinit var userProgressRepository: UserProgressRepository
+    private lateinit var dailyStatsRepository: DailyStatsRepository
+    private lateinit var statsRepository: ProductivityStatsRepository
+    private lateinit var notificationHelper: NotificationHelper
+    private lateinit var userPreferencesManager: UserPreferencesManager
+    private lateinit var quotesRepository: QuotesRepository
+    
+    // Variable para trackear el userId actual y evitar reinicializaciones innecesarias
+    private var currentUserId: Long = 1L
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         
         try {
-            // Inicializar dependencias
-            val database = FocusUpDatabase.getDatabase(this)
-            val userRepository = UserRepository(database.userDao())
-            val taskRepository = TaskRepository(database.taskDao())
-            val scheduleRepository = ScheduleRepository(database.scheduleBlockDao())
-            val statsRepository = ProductivityStatsRepository(database.productivityStatsDao())
-            val dailyStatsRepository = DailyStatsRepository(database.dailyStatsDao())
-            val achievementRepository = AchievementRepository(database.achievementDao())
-            val userProgressRepository = UserProgressRepository(database.userProgressDao())
-            val notificationHelper = NotificationHelper(this)
-            val userPreferencesManager = UserPreferencesManager(this)
+            // Inicializar dependencias compartidas
+            database = FocusUpDatabase.getDatabase(this)
+            userRepository = UserRepository(database.userDao())
+            taskRepository = TaskRepository(database.taskDao())
+            scheduleRepository = ScheduleRepository(database.scheduleBlockDao())
+            statsRepository = ProductivityStatsRepository(database.productivityStatsDao())
+            dailyStatsRepository = DailyStatsRepository(database.dailyStatsDao())
+            achievementRepository = AchievementRepository(database.achievementDao())
+            userProgressRepository = UserProgressRepository(database.userProgressDao())
+            notificationHelper = NotificationHelper(this)
+            userPreferencesManager = UserPreferencesManager(this)
+            quotesRepository = QuotesRepository()
             
-            // Crear ViewModels manualmente (en un proyecto real usarías Hilt/Dagger)
+            // Crear ViewModels que no dependen del usuario
             authViewModel = AuthViewModel(userRepository, userPreferencesManager)
-            
-            // *** CREAR GAMIFICATION VIEWMODEL PRIMERO ***
-            gamificationViewModel = GamificationViewModel(
-                userId = 1L, // TODO: Get from current user
-                achievementRepository = achievementRepository,
-                userProgressRepository = userProgressRepository,
-                notificationHelper = notificationHelper
-            )
-            
-            // *** CREAR OTROS VIEWMODELS CON GAMIFICACIÓN INTEGRADA ***
-            taskViewModel = TaskViewModel(taskRepository, dailyStatsRepository, 1L, gamificationViewModel)
             scheduleViewModel = ScheduleViewModel(scheduleRepository)
             scheduleScreenViewModel = ScheduleScreenViewModel(scheduleRepository)
-            calendarScreenViewModel = CalendarScreenViewModel(taskRepository)
-            homeScreenViewModel = HomeScreenViewModel(taskRepository, scheduleRepository)
-            pomodoroViewModel = PomodoroViewModel(notificationHelper, statsRepository, dailyStatsRepository, 1L, gamificationViewModel)
-            statsViewModel = StatsViewModel(statsRepository)
-            dashboardViewModel = DashboardViewModel(
-                userId = 1L, // TODO: Get from current user
-                dailyStatsRepository = dailyStatsRepository,
-                taskRepository = taskRepository
-            )
+            quotesViewModel = QuotesViewModel(quotesRepository)
+            
+            // Inicializar ViewModels que dependen del usuario con valores por defecto
+            // Estos se recrearán cuando el usuario esté autenticado
+            initializeUserSpecificViewModels(1L)
             
             // Programar RecurrenceWorker para verificar tareas recurrentes diariamente
             scheduleRecurrenceWorker()
             
             setContent {
+                val authUiState by authViewModel.uiState.collectAsState()
+                
+                // Observar cambios en el usuario autenticado y recrear ViewModels específicos
+                LaunchedEffect(authUiState.currentUser?.id) {
+                    authUiState.currentUser?.let { user ->
+                        // Solo reinicializar si el userId ha cambiado realmente
+                        if (user.id != currentUserId) {
+                            currentUserId = user.id
+                            initializeUserSpecificViewModels(user.id)
+                        }
+                    }
+                }
+                
                 FocusUpTheme(
                     darkTheme = true, // Forzar tema oscuro con nuestros colores
                     dynamicColor = false // Desactivar colores dinámicos del sistema
@@ -104,7 +124,8 @@ class MainActivity : ComponentActivity() {
                         pomodoroViewModel = pomodoroViewModel,
                         statsViewModel = statsViewModel,
                         dashboardViewModel = dashboardViewModel,
-                        gamificationViewModel = gamificationViewModel
+                        gamificationViewModel = gamificationViewModel,
+                        quotesViewModel = quotesViewModel
                     )
                 }
             }
@@ -135,6 +156,33 @@ class MainActivity : ComponentActivity() {
             "recurrence_generator",
             ExistingPeriodicWorkPolicy.KEEP, // Mantener el trabajo existente si ya está programado
             recurrenceWorkRequest
+        )
+    }
+    
+    /**
+     * Inicializa los ViewModels que dependen del userId específico
+     */
+    private fun initializeUserSpecificViewModels(userId: Long) {
+        currentUserId = userId
+        
+        // *** CREAR GAMIFICATION VIEWMODEL CON USERID ESPECÍFICO ***
+        gamificationViewModel = GamificationViewModel(
+            userId = userId,
+            achievementRepository = achievementRepository,
+            userProgressRepository = userProgressRepository,
+            notificationHelper = notificationHelper
+        )
+        
+        // *** CREAR OTROS VIEWMODELS CON GAMIFICACIÓN INTEGRADA ***
+        taskViewModel = TaskViewModel(taskRepository, dailyStatsRepository, userId, gamificationViewModel)
+        calendarScreenViewModel = CalendarScreenViewModel(taskRepository)
+        homeScreenViewModel = HomeScreenViewModel(taskRepository, scheduleRepository)
+        pomodoroViewModel = PomodoroViewModel(notificationHelper, statsRepository, dailyStatsRepository, userId, gamificationViewModel)
+        statsViewModel = StatsViewModel(statsRepository)
+        dashboardViewModel = DashboardViewModel(
+            userId = userId,
+            dailyStatsRepository = dailyStatsRepository,
+            taskRepository = taskRepository
         )
     }
 }

@@ -25,6 +25,8 @@ import com.example.focusup.presentation.components.gamification.*
 import com.example.focusup.presentation.viewmodels.DashboardViewModel
 import com.example.focusup.presentation.viewmodels.DashboardUiState
 import com.example.focusup.presentation.viewmodels.GamificationViewModel
+import com.example.focusup.presentation.viewmodels.QuotesViewModel
+import com.example.focusup.presentation.components.QuoteCard
 import com.example.focusup.ui.theme.ElectricPurple
 import com.example.focusup.ui.theme.DarkGraphite
 import java.text.SimpleDateFormat
@@ -42,7 +44,8 @@ fun DashboardScreen(
     dashboardViewModel: DashboardViewModel = viewModel(
         factory = DashboardViewModel.Factory(user?.id ?: 0L)
     ),
-    gamificationViewModel: GamificationViewModel? = null
+    gamificationViewModel: GamificationViewModel? = null,
+    quotesViewModel: QuotesViewModel? = null
 ) {
     val uiState by dashboardViewModel.uiState.collectAsState()
     val gamificationUiState by gamificationViewModel?.uiState?.collectAsState() ?: remember { mutableStateOf(null) }
@@ -53,6 +56,7 @@ fun DashboardScreen(
     LaunchedEffect(user?.id) {
         user?.id?.let { userId ->
             dashboardViewModel.loadDashboardData()
+            quotesViewModel?.loadDailyQuote()
         }
     }
     
@@ -111,6 +115,18 @@ fun DashboardScreen(
                 // Welcome Header
                 item {
                     WelcomeHeader(user = user)
+                }
+                
+                // Daily Motivational Quote
+                quotesViewModel?.let { viewModel ->
+                    item {
+                        val dailyQuoteState by viewModel.dailyQuoteState.collectAsState()
+                        QuoteCard(
+                            quoteState = dailyQuoteState,
+                            title = "💡 Cita del Día",
+                            onRefresh = { viewModel.loadDailyQuote() }
+                        )
+                    }
                 }
                 
                 // Gamification Progress - XP y Nivel en tiempo real

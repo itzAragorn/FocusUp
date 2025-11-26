@@ -33,6 +33,7 @@ import com.example.focusup.presentation.viewmodels.PomodoroViewModel
 import com.example.focusup.presentation.viewmodels.StatsViewModel
 import com.example.focusup.presentation.viewmodels.DashboardViewModel
 import com.example.focusup.presentation.viewmodels.GamificationViewModel
+import com.example.focusup.presentation.viewmodels.QuotesViewModel
 import com.example.focusup.utils.BiometricHelper
 import com.example.focusup.utils.UserPreferencesManager
 import androidx.compose.ui.platform.LocalContext
@@ -49,6 +50,7 @@ fun FocusUpNavigation(
     statsViewModel: StatsViewModel,
     dashboardViewModel: DashboardViewModel,
     gamificationViewModel: GamificationViewModel,
+    quotesViewModel: QuotesViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     val context = LocalContext.current
@@ -194,6 +196,7 @@ fun FocusUpNavigation(
                 user = authUiState.currentUser,
                 dashboardViewModel = dashboardViewModel,
                 gamificationViewModel = gamificationViewModel,
+                quotesViewModel = quotesViewModel,
                 onNavigateBack = {
                     navController.popBackStack()
                 },
